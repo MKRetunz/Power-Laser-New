@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Power-Laser.CSharp.Plugins", "Power-Laser.CSharp.Plugins.csproj", "{58A80E03-9A3E-C625-7A08-A67D51152B20}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Power-Laser.CSharp", "Power-Laser.CSharp.csproj", "{FC2E3D7A-630B-160F-0A73-6D4E848B5D9D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Power-Laser.CSharp.Editor", "Power-Laser.CSharp.Editor.csproj", "{0F063B31-7040-C244-0CEC-7BC87E526FC7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{58A80E03-9A3E-C625-7A08-A67D51152B20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58A80E03-9A3E-C625-7A08-A67D51152B20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58A80E03-9A3E-C625-7A08-A67D51152B20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58A80E03-9A3E-C625-7A08-A67D51152B20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC2E3D7A-630B-160F-0A73-6D4E848B5D9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC2E3D7A-630B-160F-0A73-6D4E848B5D9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC2E3D7A-630B-160F-0A73-6D4E848B5D9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC2E3D7A-630B-160F-0A73-6D4E848B5D9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F063B31-7040-C244-0CEC-7BC87E526FC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F063B31-7040-C244-0CEC-7BC87E526FC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F063B31-7040-C244-0CEC-7BC87E526FC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F063B31-7040-C244-0CEC-7BC87E526FC7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
