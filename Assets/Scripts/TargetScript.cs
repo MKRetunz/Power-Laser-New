@@ -5,7 +5,7 @@ public class TargetScript : MonoBehaviour {
     public int hp;
     public bool isAlive;
     public Transform target;
-    public GameObject player;
+    //public GameObject player;
     Vector3 distance;
 
     void OnTriggerEnter(Collider col)
