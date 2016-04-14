@@ -118,6 +118,11 @@ public class PlayerController : MonoBehaviour
             PowerUpTimer = 0.1f;
             Destroy(col.gameObject);
         }
+        if (col.GetComponent<Collider>().name == "LasergateHit")
+        {
+            HUD.score -= 100;
+            HUD.playerHit = true;
+        }
     }
 
     // Update is called once per frame
@@ -277,7 +282,6 @@ public class PlayerController : MonoBehaviour
             }
         }
         transform.localPosition = new Vector3(0, CspeedUp, 0);
-        Debug.Log(player.height);
         player.height = crouchHeight + 2.5f;
         GunHeat -= Time.deltaTime / 2;
         TimerCover += Time.deltaTime;

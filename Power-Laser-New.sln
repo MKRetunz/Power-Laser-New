@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Power-Laser-New.CSharp.Plugins", "Power-Laser-New.CSharp.Plugins.csproj", "{9164F571-F6EF-39D5-2652-8073AAEFAEEA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Power-Laser-New.CSharp", "Power-Laser-New.CSharp.csproj", "{F461193B-C873-4A27-2226-AAF792F6355F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Power-Laser-New.CSharp.Editor", "Power-Laser-New.CSharp.Editor.csproj", "{E3FC08D2-25BD-47A5-2587-E9C09505414A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9164F571-F6EF-39D5-2652-8073AAEFAEEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9164F571-F6EF-39D5-2652-8073AAEFAEEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9164F571-F6EF-39D5-2652-8073AAEFAEEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9164F571-F6EF-39D5-2652-8073AAEFAEEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F461193B-C873-4A27-2226-AAF792F6355F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F461193B-C873-4A27-2226-AAF792F6355F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F461193B-C873-4A27-2226-AAF792F6355F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F461193B-C873-4A27-2226-AAF792F6355F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3FC08D2-25BD-47A5-2587-E9C09505414A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3FC08D2-25BD-47A5-2587-E9C09505414A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3FC08D2-25BD-47A5-2587-E9C09505414A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3FC08D2-25BD-47A5-2587-E9C09505414A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
