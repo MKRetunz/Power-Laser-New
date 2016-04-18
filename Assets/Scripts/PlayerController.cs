@@ -27,6 +27,10 @@ public class PlayerController : MonoBehaviour
     private float PowerUpTimer;
     private float ReloadTimer;
 
+
+    static public int health = 100;
+    static public float recoverTimer;
+
     //pistol
     public GameObject singleShotP;
     public GameObject burstShotP;
@@ -53,6 +57,7 @@ public class PlayerController : MonoBehaviour
     public Slider HeatSlider;
     public Slider BoonSlider;
     public Slider AmmoSlider;
+    public Slider HealthSlider;
     public Text CoverPopUp;
 
     // Use this for initialization
@@ -65,6 +70,7 @@ public class PlayerController : MonoBehaviour
         GunHeat = 0.0f;
         PowerUpTimer = 0.0f;
         ReloadTimer = 0.0f;
+        recoverTimer = 0.0f;
 
         currentGun = 0;
         maxGuns = 8;
@@ -249,6 +255,15 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+        if (recoverTimer >= 3.0f)
+        {
+            health += 1;
+
+            if (health >= 100)
+            {
+                health = 100;
+            }
+        }
 
         if (PowerUpTimer >= 0.0f && rapidFire == true)
         {
@@ -314,6 +329,7 @@ public class PlayerController : MonoBehaviour
         AmmoSlider.value = currentAmmo;
         HeatSlider.value = GunHeat;
         BoonSlider.value = PowerUpTimer;
+        HealthSlider.value = health;
 
         //Aim mechanics
         if (Input.GetMouseButtonDown(1))

@@ -78,6 +78,8 @@ public class HUD : MonoBehaviour
             minusStay = 0;
             minusTrigger = true;
             playerHit = false;
+            PlayerController.health -= 50;
+            PlayerController.recoverTimer = 0.0f;
         }
 
         //Run/ADS/Idle controller
