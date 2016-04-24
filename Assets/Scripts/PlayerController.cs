@@ -64,6 +64,9 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         HeatSlider.transform.position = new Vector3(Screen.width / 12 * 3, Screen.height / 12, HeatSlider.transform.position.z);
+        BoonSlider.transform.position = new Vector3(Screen.width / 12 * 3, Screen.height / 12 * 1.5f, HeatSlider.transform.position.z);
+        HealthSlider.transform.position = new Vector3(Screen.width / 12 * 3, Screen.height / 12 * 2, HeatSlider.transform.position.z);
+        AmmoSlider.transform.position = new Vector3(Screen.width / 12 , Screen.height / 12 * 2, HeatSlider.transform.position.z);
         shootDelay = 0;
         crouchingSpeed = 0.1f;
         CspeedUp = crouchingSpeed;
@@ -134,12 +137,6 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        /*if (Input.GetKey(KeyCode.F))
-        {
-            HUD.enemyDie = true;
-            HUD.score += 80;
-        }*/
-
         // Shoot delay
         if (shooting && shootDelay < fireRate)
         {

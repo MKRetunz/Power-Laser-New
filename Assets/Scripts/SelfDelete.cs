@@ -20,15 +20,15 @@ public class SelfDelete : MonoBehaviour {
 
         if (lasergun.gunRange == 0)
         {
-            maxTime = 0.3f;
+            maxTime = 0.15f;
         }
         if (lasergun.gunRange == 1)
         {
-            maxTime = 1.0f;
+            maxTime = 0.5f;
         }
         if (lasergun.gunRange == 2)
         {
-            maxTime = 5.0f;
+            maxTime = 2.5f;
         }
 
         Timer += Time.deltaTime;

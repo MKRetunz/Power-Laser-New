@@ -6,6 +6,7 @@ using System.Collections;
 public class LaserGun : MonoBehaviour
 {
     public Camera c;
+    GameObject Parent;
     public GameObject laserparticles;
     public Transform particlerotation;
     public GameObject gunPos;
@@ -21,8 +22,26 @@ public class LaserGun : MonoBehaviour
     public float bSpeed;
     public int gunDamage;
     public int gunRange; //0 = short 1 = medium 2 = long
+    int maxGuns;
 
     float killTimer;
+
+    //pistol
+    public GameObject singleShotP;
+    public GameObject burstShotP;
+    public GameObject revolverP;
+
+    //rifles
+    public GameObject semiAutoR;
+    public GameObject fullAutoR;
+    public GameObject boltActionR;
+
+    //Shotguns
+    public GameObject pumpActionS;
+    public GameObject semiAutoS;
+
+    //array
+    private GameObject[] gunArray;
 
     void Start()
     {
@@ -34,9 +53,31 @@ public class LaserGun : MonoBehaviour
         shotDelay = 0;
         shootTimer = 0.0f;
 
-        bSpeed = 20;
+        bSpeed = 80;
 
         Cursor.lockState = CursorLockMode.Locked;
+
+        maxGuns = 8;
+
+        Parent = gunPos;
+
+        Parent.transform.TransformVector(Parent.transform.position.x, Parent.transform.position.y, Parent.transform.position.z - 20);
+
+        gunArray = new GameObject[maxGuns];
+
+        gunArray[0] = singleShotP;
+        gunArray[1] = burstShotP;
+        gunArray[2] = revolverP;
+        gunArray[3] = semiAutoR;
+        gunArray[4] = fullAutoR;
+        gunArray[5] = boltActionR;
+        gunArray[6] = pumpActionS;
+        gunArray[7] = semiAutoS;
+
+        for (int i = 1; i < maxGuns; i++)
+        {
+            gunArray[i].SetActive(false);
+        }
     }
 
     void Update()
@@ -109,6 +150,16 @@ public class LaserGun : MonoBehaviour
             gunRange = 0;
         }
 
+        for (int i = 0; i < maxGuns; i++)
+        {
+            gunArray[i].SetActive(false);
+
+            if (i == playercontroller.currentGun)
+            {
+                gunArray[i].SetActive(true);
+            } 
+        }
+
         shotPoint = gunPos.transform.position;
         //shotPoint.y -= 0.8f;
         if (Input.GetMouseButton(0) && !PlayerController.shooting && !PlayerController.switchADS && !PlayerController.OverHeat && !PlayerController.noAmmo && !PlayerController.rapidFire) {
@@ -149,7 +200,7 @@ public class LaserGun : MonoBehaviour
         {
             if (PlayerController.AmmoCD == false)
             {
-                Rigidbody bullet = Instantiate(projectile, transform.position, transform.rotation) as Rigidbody;
+                Rigidbody bullet = Instantiate(projectile, Parent.transform.position, Parent.transform.rotation) as Rigidbody;
 
                 bullet.velocity = transform.TransformDirection(new Vector3(0, 0, bSpeed));
             }
