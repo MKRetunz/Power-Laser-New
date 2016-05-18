@@ -59,9 +59,6 @@ public class LaserGun : MonoBehaviour
 
         maxGuns = 8;
 
-        Parent = gunPos;
-
-        Parent.transform.TransformVector(Parent.transform.position.x, Parent.transform.position.y, Parent.transform.position.z - 20);
 
         gunArray = new GameObject[maxGuns];
 
@@ -74,10 +71,7 @@ public class LaserGun : MonoBehaviour
         gunArray[6] = pumpActionS;
         gunArray[7] = semiAutoS;
 
-        for (int i = 1; i < maxGuns; i++)
-        {
-            gunArray[i].SetActive(false);
-        }
+        Parent = singleShotP;
     }
 
     void Update()
@@ -92,6 +86,7 @@ public class LaserGun : MonoBehaviour
             gunDamage = 17;
             playercontroller.fireRate = 0.4f;
             gunRange = 1;
+            ChangeGun(0);
         }
 
         //burst fire pistol
@@ -100,6 +95,7 @@ public class LaserGun : MonoBehaviour
             gunDamage = 20;
             playercontroller.fireRate = 0.9f;
             gunRange = 1;
+            ChangeGun(1);
         }
 
         //revolver
@@ -108,6 +104,7 @@ public class LaserGun : MonoBehaviour
             gunDamage = 80;
             playercontroller.fireRate = 1.2f;
             gunRange = 1;
+            ChangeGun(2);
         }
 
         //semi automatic rifle
@@ -116,6 +113,7 @@ public class LaserGun : MonoBehaviour
             gunDamage = 40;
             playercontroller.fireRate = 0.6f;
             gunRange = 2;
+            ChangeGun(3);
         }
 
         //full automatic rifle
@@ -124,6 +122,7 @@ public class LaserGun : MonoBehaviour
             gunDamage = 20;
             playercontroller.fireRate = 0.1f;
             gunRange = 2;
+            ChangeGun(4);
         }
 
         //Bolt action rifle
@@ -132,6 +131,7 @@ public class LaserGun : MonoBehaviour
             gunDamage = 100;
             playercontroller.fireRate = 1.5f;
             gunRange = 2;
+            ChangeGun(5);
         }
 
         //pump action shotgun
@@ -140,6 +140,7 @@ public class LaserGun : MonoBehaviour
             gunDamage = 100;
             playercontroller.fireRate = 1.3f;
             gunRange = 0;
+            ChangeGun(6);
         }
 
         //semi automatic shotgun
@@ -148,6 +149,7 @@ public class LaserGun : MonoBehaviour
             gunDamage = 70;
             playercontroller.fireRate = 0.8f;
             gunRange = 0;
+            ChangeGun(7);
         }
 
         for (int i = 0; i < maxGuns; i++)
@@ -288,5 +290,17 @@ public class LaserGun : MonoBehaviour
         }
 
         PlayerController.shooting = true;
+    }
+
+    int ChangeGun (int i)
+    {
+        for(int w = 0; w < maxGuns; w++)
+        {
+            if (w == i)
+            {
+                Parent = gunArray[w];
+            }
+        }
+        return 0;
     }
 }
