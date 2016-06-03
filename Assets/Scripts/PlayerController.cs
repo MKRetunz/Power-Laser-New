@@ -194,7 +194,9 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             switchGun(1);
-            AmmoCD = true;
+            AmmoCD = false;
+            AmmoClip = 6;
+            if (currentAmmo > AmmoClip) { currentAmmo = AmmoClip; }
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha3))
