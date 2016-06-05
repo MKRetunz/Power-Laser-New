@@ -25,11 +25,11 @@ public class LaserGun : MonoBehaviour
     float fireRate;
     float bulletTime;
 
-    float shortRange = 0.5f;
-    float mediumRange = 1.5f;
-    float longRange = 2.5f;
+    //float shortRange = 0.5f;
+    //float mediumRange = 1.5f;
+    //float longRange = 2.5f;
 
-    float currentRange;
+    //float currentRange;
 
     public float bSpeed;
     public int gunDamage;
@@ -39,12 +39,12 @@ public class LaserGun : MonoBehaviour
 
     float killTimer;
 
-    public GameObject[] weapons;
+    //public GameObject[] weapons;
 
     public Transform bulletInstancePos;
 
     int currentWeapon;
-
+    /*
     //pistol
     public GameObject singleShotP;
     public GameObject burstShotP;
@@ -61,10 +61,10 @@ public class LaserGun : MonoBehaviour
 
     //array
     private GameObject[] gunArray;
-
+    */
     void Start()
     {
-        currentWeapon = 0;
+        /*currentWeapon = 0;
 
         for(int i = 0; i < weapons.Length; i++)
         {
@@ -76,7 +76,7 @@ public class LaserGun : MonoBehaviour
             {
                 ChangeWeapon(0);
             }
-        }
+        }*/
 
         line = GetComponent<LineRenderer>();
         line.enabled = false;
@@ -114,7 +114,7 @@ public class LaserGun : MonoBehaviour
 
         //Gun statistics
         //single shot pistol
-        /*if (playercontroller.currentGun == 0)
+        if (playercontroller.currentGun == 0)
         {
             gunDamage = 17;
             playercontroller.fireRate = 0.4f;
@@ -184,19 +184,9 @@ public class LaserGun : MonoBehaviour
             playercontroller.fireRate = 0.8f;
             gunRange = 0;
             ChangeGun(7);
-        }*/
+        }
 
-        /*for (int i = 0; i < maxGuns; i++)
-        {
-            gunArray[i].SetActive(false);
-
-            if (i == playercontroller.currentGun)
-            {
-                gunArray[i].SetActive(true);
-            } 
-        }*/
-
-        if(Input.GetKeyDown(KeyCode.T))
+        /*if(Input.GetKeyDown(KeyCode.T))
         {
             if(currentWeapon < weapons.Length)
             {
@@ -210,7 +200,7 @@ public class LaserGun : MonoBehaviour
 
                 ChangeWeapon(currentWeapon);
             }
-        }
+        }*/
 
         shotPoint = gunPos.transform.position;
         //shotPoint.y -= 0.8f;
@@ -234,7 +224,6 @@ public class LaserGun : MonoBehaviour
                 Debug.Log("Bullet Rot " + bulletInstancePos.rotation);
 
                 Rigidbody bullet = Instantiate(projectile, bulletInstancePos.position, bulletInstancePos.rotation) as Rigidbody;
-                bullet.GetComponent<SelfDelete>().SetBulletTime(currentRange);
                 if (damagetype == false)
                 {
                     bullet.velocity = transform.TransformDirection(new Vector3(0, 0, bSpeed));
@@ -248,8 +237,7 @@ public class LaserGun : MonoBehaviour
             burstTimer += Time.deltaTime;
             if (burstfire == true && burstTimer >= 0.5F && burstcounter < 3)
             {
-                Rigidbody bullet = Instantiate(projectile, bulletInstancePos.position, Quaternion.identity) as Rigidbody;
-                bullet.GetComponent<SelfDelete>().SetBulletTime(currentRange);
+                Rigidbody bullet = Instantiate(projectile, bulletInstancePos.position, bulletInstancePos.rotation) as Rigidbody;
                 bullet.velocity = transform.TransformDirection(new Vector3(0, 0, bSpeed));
                 burstcounter++;
                 burstTimer = 0.0f;
@@ -363,13 +351,13 @@ public class LaserGun : MonoBehaviour
         PlayerController.shooting = true;
     }
 
-    void ChangeWeapon(int id)
+    /*void ChangeWeapon(int id)
     {
         if (id == 0)
         {
             gunDamage = 17;
             fireRate = 0.4f;
-            currentRange = mediumRange;
+            gunRange = 1;
         }
 
         //burst fire pistol
@@ -377,7 +365,7 @@ public class LaserGun : MonoBehaviour
         {
             gunDamage = 20;
             fireRate = 0.9f;
-            currentRange = mediumRange;
+            gunRange = 1;
         }
 
         //revolver
@@ -428,13 +416,24 @@ public class LaserGun : MonoBehaviour
             fireRate = 0.8f;
             gunRange = 0;
         }
-
+        Debug.Log(currentRange);
         bulletInstancePos = weapons[id].transform.FindChild("BulletPos").transform;
-    }
+        for (int i = 0; i < maxGuns; i++)
+        {
+            if (i == id)
+            {
+                damagetype = false;
+
+                if (id == 1 || id == 6 || id == 7)
+                {
+                    damagetype = true;
+                }
+            }
+        }
+    }*/
 
     int ChangeGun (int i)
     {
-        bulletPos = gunArray[i].transform.FindChild("BulletPos").transform;
         for (int w = 0; w < maxGuns; w++)
         {
             if (w == i)
