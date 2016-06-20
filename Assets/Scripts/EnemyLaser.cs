@@ -19,7 +19,7 @@ public class EnemyLaser : MonoBehaviour
     float distance;
 
     private float shotDelay;
-    private bool eReload;
+    //private bool eReload;
     private bool eShoot;
     private float speed;
     private float alpha;
@@ -33,7 +33,7 @@ public class EnemyLaser : MonoBehaviour
         eLine.enabled = false;
         eLaserShot = false;
         eShoot = false;
-        eReload = false;
+        //eReload = false;
         seePlayer = false;
         speed = 2;
         alpha = 1;

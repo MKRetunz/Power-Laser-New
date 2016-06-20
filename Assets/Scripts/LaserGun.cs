@@ -17,6 +17,7 @@ public class LaserGun : MonoBehaviour
     bool damagetype;
     bool laserShot;
     bool burstfire;
+    bool autofire;
     float shotDelay;
     float speed;
     float alpha;
@@ -39,7 +40,7 @@ public class LaserGun : MonoBehaviour
 
     float killTimer;
 
-    //public GameObject[] weapons;
+    public GameObject[] weapons;
 
     public Transform bulletInstancePos;
 
@@ -103,8 +104,8 @@ public class LaserGun : MonoBehaviour
         gunArray[5] = boltActionR;
         gunArray[6] = pumpActionS;
         gunArray[7] = semiAutoS;
-
-        ChangeGun(0);*/
+        */
+        ChangeGun(0);
     }
 
     void Update()
@@ -204,13 +205,13 @@ public class LaserGun : MonoBehaviour
 
         shotPoint = gunPos.transform.position;
         //shotPoint.y -= 0.8f;
-        if (Input.GetMouseButton(0) && !PlayerController.shooting && !PlayerController.switchADS && !PlayerController.rapidFire)
+        if (Input.GetMouseButton(0) && !PlayerController.shooting && !PlayerController.switchADS && !PlayerController.rapidFire && currentWeapon != 4)
         {
             StopCoroutine("ShootLaser");
             StartCoroutine("ShootLaser");
         }
 
-        if (Input.GetMouseButton(0) && !PlayerController.shooting && !PlayerController.switchADS && PlayerController.rapidFire)
+        if (Input.GetMouseButton(0) && !PlayerController.shooting && !PlayerController.switchADS && PlayerController.rapidFire || currentWeapon == 4 && Input.GetMouseButton(0) && !PlayerController.shooting && !PlayerController.switchADS && !PlayerController.rapidFire)
         {
             StopCoroutine("RapidLaser");
             StartCoroutine("RapidLaser");
@@ -218,17 +219,17 @@ public class LaserGun : MonoBehaviour
 
         if (PlayerController.AmmoCD == false && !PlayerController.noAmmo)
         {
-            if (Input.GetMouseButton(0) && !PlayerController.shooting && !PlayerController.switchADS && !PlayerController.rapidFire)
+            if (Input.GetMouseButtonDown(0) && !PlayerController.shooting && !PlayerController.switchADS && !PlayerController.rapidFire)
             {
-                Debug.Log("Bullet Pos " + bulletInstancePos.position);
-                Debug.Log("Bullet Rot " + bulletInstancePos.rotation);
+                /*Debug.Log("Bullet Pos " + bulletInstancePos.position);
+                Debug.Log("Bullet Rot " + bulletInstancePos.rotation);*/
 
                 Rigidbody bullet = Instantiate(projectile, bulletInstancePos.position, bulletInstancePos.rotation) as Rigidbody;
                 if (damagetype == false)
                 {
                     bullet.velocity = transform.TransformDirection(new Vector3(0, 0, bSpeed));
                 }
-                if (damagetype == true)
+                if (damagetype == true && burstfire == false)
                 {
                     burstfire = true;
                     burstcounter = 0;
@@ -242,6 +243,10 @@ public class LaserGun : MonoBehaviour
                 burstcounter++;
                 burstTimer = 0.0f;
                 Debug.Log("works");
+                if (burstcounter == 3)
+                {
+                    burstfire = false;
+                }
             }
         }
 
@@ -311,6 +316,11 @@ public class LaserGun : MonoBehaviour
     IEnumerator RapidLaser()
     {
         line.enabled = true;
+
+        if (currentWeapon == 4)
+        {
+            PlayerController.GunHeat += Time.deltaTime;
+        }
 
         if (Input.GetMouseButton(0) && !PlayerController.noAmmo)
         {
@@ -434,13 +444,15 @@ public class LaserGun : MonoBehaviour
 
     int ChangeGun (int i)
     {
+        bulletInstancePos = weapons[i].transform.FindChild("BulletPos").transform;
+        currentWeapon = i;
         for (int w = 0; w < maxGuns; w++)
         {
             if (w == i)
             {
                 damagetype = false;
 
-                if (i == 1 || i == 6 || i == 7)
+                if (i == 1 || i == 4)
                 {
                     damagetype = true;
                 }

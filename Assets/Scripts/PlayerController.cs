@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
     public float fireRate;
     private float PowerUpTimer;
     private float ReloadTimer;
-
+    private float particleTimer;
 
     static public int health = 100;
     static public float recoverTimer;
@@ -48,6 +48,8 @@ public class PlayerController : MonoBehaviour
     //array
     private GameObject[] gunArray;
 
+    public ParticleSystem muzzleflash;
+
     public int currentGun;
     public int maxGuns;
     public int AmmoClip;
@@ -63,6 +65,7 @@ public class PlayerController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        muzzleflash.Stop();
         HeatSlider.transform.position = new Vector3(Screen.width / 12 * 3, Screen.height / 12, HeatSlider.transform.position.z);
         BoonSlider.transform.position = new Vector3(Screen.width / 12 * 3, Screen.height / 12 * 1.5f, HeatSlider.transform.position.z);
         HealthSlider.transform.position = new Vector3(Screen.width / 12 * 3, Screen.height / 12 * 2, HeatSlider.transform.position.z);
@@ -155,6 +158,7 @@ public class PlayerController : MonoBehaviour
             {
                 Debug.Log("Pressed left click.");
                 singleShotP.GetComponent<Animator>().Play("Gun_Shoot");
+                
             }
             else if (ADS)
             {
@@ -168,7 +172,13 @@ public class PlayerController : MonoBehaviour
             if (AmmoCD == false)
             {
                 currentAmmo--;
+                if (currentGun == 1)
+                {
+                    currentAmmo -= 2;
+                }
             }
+            muzzleflash.Play();
+            particleTimer = 0.0f;
         }
 
         if (Input.GetMouseButton(0) && !shooting && !switchADS && !OverHeat && !noAmmo && rapidFire == true)
@@ -195,7 +205,7 @@ public class PlayerController : MonoBehaviour
         {
             switchGun(1);
             AmmoCD = false;
-            AmmoClip = 6;
+            AmmoClip = 8;
             if (currentAmmo > AmmoClip) { currentAmmo = AmmoClip; }
         }
 
@@ -299,6 +309,7 @@ public class PlayerController : MonoBehaviour
         player.height = crouchHeight + 2.5f;
         GunHeat -= Time.deltaTime / 2;
         TimerCover += Time.deltaTime;
+        particleTimer += Time.deltaTime;
 
         if (currentAmmo == 0)
         {
@@ -329,6 +340,11 @@ public class PlayerController : MonoBehaviour
         HeatSlider.value = GunHeat;
         BoonSlider.value = PowerUpTimer;
         HealthSlider.value = health;
+
+        if (particleTimer > 0.8f)
+        {
+            muzzleflash.Stop();
+        }
 
         //Aim mechanics
         if (Input.GetMouseButtonDown(1))
