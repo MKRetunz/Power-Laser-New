@@ -8,10 +8,18 @@ public class HUD : MonoBehaviour
     public Texture2D plus10;
     public Texture2D plus;
     public Texture2D min100;
+    public Texture2D Gun;
+    public Texture2D Score;
+    public Texture2D Life;
+    public Texture2D Ammo;
     public Rect minusPos;
     public Rect plusPos;
     public Rect crossPos;
     public Rect scorePos;
+    public Rect gunPos;
+    public Rect ammoPos;
+    public Rect lifePos;
+    public Rect boonPos;
     public GUIStyle textstyle;
     public float scaleTrigger = 0;
     public float scaleDelay = 0;
@@ -37,10 +45,20 @@ public class HUD : MonoBehaviour
         scorePos = new Rect((Screen.width - 200) / 24 * 23, (Screen.height - 100) / 12, 200, 100);
         plusPos = new Rect(scorePos.x + 90, scorePos.y - 3, plus80.width * 1.3f, plus80.height * 1.3f);
         minusPos = new Rect(scorePos.x + 90, scorePos.y + 6, plus80.width * 1.3f, plus80.height * 1.3f);
+
+        //boonPos = new Rect(Screen.width / 16, Screen.height / 12 * 1.5f, );
+        lifePos = new Rect((Screen.width / 16 - Life.width / 2), (Screen.height - Life.height / 2), Life.width / 2, Life.height / 2);
+
+        ammoPos = new Rect((Screen.width - Ammo.width / 2), (Screen.height - Ammo.height), Ammo.width / 2, Ammo.height / 2);
+        gunPos = new Rect((Screen.width - Gun.width / 2), (Screen.height - Gun.height / 2), Gun.width / 2, Gun.height / 2);
     }
 
     void OnGUI()
     {
+        GUI.DrawTexture(lifePos, Life);
+        GUI.DrawTexture(ammoPos, Ammo);
+        GUI.DrawTexture(gunPos, Gun);
+        GUI.DrawTexture(scorePos, Score);
         //Score GUI
         GUI.Label(scorePos, "Score: " + score, textstyle);
         if(plusTrigger)

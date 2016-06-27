@@ -132,7 +132,7 @@ public class EnemySpawn : MonoBehaviour {
         GUIStyle Coverstyle = new GUIStyle();
         Coverstyle.alignment = TextAnchor.MiddleCenter;
         Coverstyle.fontSize = 50;
-        GUI.Label(new Rect(Screen.width / 2 - 200, Screen.height - 40, 400, 30), wave.ToString(), Coverstyle);
+        GUI.Label(new Rect(Screen.width / 16 - 200, Screen.height / 8 - 40 , 400, 30), "Wave: " + wave.ToString(), Coverstyle);
     }
 }
 

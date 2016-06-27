@@ -66,10 +66,13 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         muzzleflash.Stop();
-        HeatSlider.transform.position = new Vector3(Screen.width / 12 * 3, Screen.height / 12, HeatSlider.transform.position.z);
-        BoonSlider.transform.position = new Vector3(Screen.width / 12 * 3, Screen.height / 12 * 1.5f, HeatSlider.transform.position.z);
-        HealthSlider.transform.position = new Vector3(Screen.width / 12 * 3, Screen.height / 12 * 2, HeatSlider.transform.position.z);
-        AmmoSlider.transform.position = new Vector3(Screen.width / 12 , Screen.height / 12 * 2, HeatSlider.transform.position.z);
+        
+        BoonSlider.transform.position = new Vector3(Screen.width / 16, Screen.height / 12 * 1.5f, HeatSlider.transform.position.z);
+        HealthSlider.transform.position = new Vector3(Screen.width / 16, Screen.height / 12, HeatSlider.transform.position.z);
+
+        HeatSlider.transform.position = new Vector3(Screen.width / 12 * 11, Screen.height / 12 * 3, HeatSlider.transform.position.z);
+        AmmoSlider.transform.position = new Vector3(Screen.width / 12 *11, Screen.height / 12 * 3, HeatSlider.transform.position.z);
+
         shootDelay = 0;
         crouchingSpeed = 0.1f;
         CspeedUp = crouchingSpeed;
