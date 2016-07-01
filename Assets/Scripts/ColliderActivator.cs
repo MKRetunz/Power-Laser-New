@@ -21,7 +21,6 @@ public class ColliderActivator : MonoBehaviour {
 
         newLocation.y -= 105;
 
-
         if (timer >= 1.5f && down == false)
         {
             transform.position = new Vector3(location.x, newLocation.y, location.z);

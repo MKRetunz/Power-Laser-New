@@ -137,7 +137,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
             m_MouseLook.UpdateCursorLock();
 
-            if (Input.GetMouseButtonDown(0) && !PlayerController.shooting && !PlayerController.OverHeat)
+            if (Input.GetMouseButtonDown(0) && !LaserGun.shooting && !LaserGun.OverHeat)
             {
                 m_IsWalking = true;
                 shootDelayer = true;
@@ -156,7 +156,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 shootDelayer = false;
             }
 
-            if (!m_IsWalking && m_CharacterController.isGrounded && !PlayerController.shooting)
+            if (!m_IsWalking && m_CharacterController.isGrounded && !LaserGun.shooting)
             {
                 isRunning = true;
                 if (PlayerController.ADS)
@@ -254,7 +254,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 #if !MOBILE_INPUT
             // On standalone builds, walk/run speed is modified by a key press.
             // keep track of whether or not the character is walking or running
-            if(!Input.GetMouseButton(0) && !PlayerController.shooting && !shootDelayer)
+            if(!Input.GetMouseButton(0) && !LaserGun.shooting && !shootDelayer)
             {
                 m_IsWalking = !Input.GetKey(KeyCode.LeftShift);
             }

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class HUD : MonoBehaviour
 {
@@ -37,7 +38,15 @@ public class HUD : MonoBehaviour
     public bool minusTrigger = false;
     public static bool enemyHit = false;
     public static bool enemyDie = false;
+    public static bool showText;
     public static int score = 0;
+
+    //UI
+    public Slider HeatSlider;
+    public Slider BoonSlider;
+    public Slider HealthSlider;
+    public Text CoverPopUp;
+    public Text AmmoText;
 
     void Start()
     {
@@ -51,6 +60,15 @@ public class HUD : MonoBehaviour
 
         ammoPos = new Rect((Screen.width - Ammo.width / 2), (Screen.height - Ammo.height), Ammo.width / 2, Ammo.height / 2);
         gunPos = new Rect((Screen.width - Gun.width / 2), (Screen.height - Gun.height / 2), Gun.width / 2, Gun.height / 2);
+
+
+        BoonSlider.transform.position = new Vector3(Screen.width / 16, Screen.height / 12 * 1.5f, HeatSlider.transform.position.z);
+        HealthSlider.transform.position = new Vector3(Screen.width / 16, Screen.height / 12, HeatSlider.transform.position.z);
+
+        HeatSlider.transform.position = new Vector3(Screen.width / 12 * 11, Screen.height / 12 * 3, HeatSlider.transform.position.z);
+        AmmoText.transform.position = new Vector3(Screen.width / 12 * 11, Screen.height / 12 * 3, HeatSlider.transform.position.z);
+
+        showText = false;
     }
 
     void OnGUI()
@@ -68,6 +86,14 @@ public class HUD : MonoBehaviour
         if (minusTrigger)
         {
             GUI.DrawTexture(minusPos, min100);
+        }
+
+        if (showText)
+        {
+            GUIStyle Coverstyle = new GUIStyle();
+            Coverstyle.alignment = TextAnchor.MiddleCenter;
+            Coverstyle.fontSize = 50;
+            GUI.Label(new Rect(Screen.width / 2 - 200, Screen.height - 40, 400, 30), "Hold Z for cover.", Coverstyle);
         }
 
         //Score handling
@@ -101,11 +127,11 @@ public class HUD : MonoBehaviour
         }
 
         //Run/ADS/Idle controller
-        if (!PlayerController.ADS && Input.GetMouseButtonDown(1) && !PlayerController.switchADS && !PlayerController.shooting)
+        if (!PlayerController.ADS && Input.GetMouseButtonDown(1) && !PlayerController.switchADS && !LaserGun.shooting)
         {
             scaleToADS = true;
         }
-        else if (PlayerController.ADS && Input.GetMouseButtonDown(1) && !PlayerController.switchADS && !PlayerController.shooting)
+        else if (PlayerController.ADS && Input.GetMouseButtonDown(1) && !PlayerController.switchADS && !LaserGun.shooting)
         {
             scaleFromADS = true;
         }
@@ -185,5 +211,10 @@ public class HUD : MonoBehaviour
             minusTrigger = false;
             minusStay = 0;
         }
+
+        AmmoText.text = LaserGun.currentAmmo.ToString();
+        HeatSlider.value = LaserGun.GunHeat;
+        BoonSlider.value = LaserGun.PowerUpTimer;
+        HealthSlider.value = PlayerController.health;
     }
 }

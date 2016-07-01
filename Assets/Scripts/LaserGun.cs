@@ -9,11 +9,11 @@ public class LaserGun : MonoBehaviour
     Transform bulletPos;
     public GameObject laserparticles;
     public Transform particlerotation;
-    public GameObject gunPos;
     public Rigidbody projectile;
 
     LineRenderer line;
     Vector3 shotPoint;
+    public GameObject laserPoint; 
     bool damagetype;
     bool laserShot;
     bool burstfire;
@@ -23,14 +23,19 @@ public class LaserGun : MonoBehaviour
     float alpha;
     float shootTimer;
     float burstTimer;
-    float fireRate;
     float bulletTime;
 
-    //float shortRange = 0.5f;
-    //float mediumRange = 1.5f;
-    //float longRange = 2.5f;
+    public float fireRate;
+    static public float PowerUpTimer;
+    private float ReloadTimer;
+    public static float shootDelay;
+    public static float GunHeat;
 
-    //float currentRange;
+    public static bool OverHeat;
+    public static bool rapidFire;
+    public static bool noAmmo;
+    public static bool AmmoCD;
+    public static bool shooting;
 
     public float bSpeed;
     public int gunDamage;
@@ -45,43 +50,24 @@ public class LaserGun : MonoBehaviour
     public Transform bulletInstancePos;
 
     int currentWeapon;
-    /*
-    //pistol
-    public GameObject singleShotP;
-    public GameObject burstShotP;
-    public GameObject revolverP;
 
-    //rifles
-    public GameObject semiAutoR;
-    public GameObject fullAutoR;
-    public GameObject boltActionR;
+    public int currentGun;
+    public int AmmoClip;
+    static public int currentAmmo;
 
-    //Shotguns
-    public GameObject pumpActionS;
-    public GameObject semiAutoS;
-
-    //array
-    private GameObject[] gunArray;
-    */
     void Start()
     {
-        /*currentWeapon = 0;
+        GunHeat = 0.0f;
+        PowerUpTimer = 0.0f;
+        ReloadTimer = 0.0f;
+        shootDelay = 0;
 
-        for(int i = 0; i < weapons.Length; i++)
-        {
-            if(i != currentWeapon)
-            {
-                weapons[i].SetActive(false);
-            }
-            else
-            {
-                ChangeWeapon(0);
-            }
-        }*/
-
+        shooting = false;
+        rapidFire = false;
         line = GetComponent<LineRenderer>();
         line.enabled = false;
         laserShot = false;
+
         speed = 10;
         alpha = 1;
         shotDelay = 0;
@@ -91,100 +77,124 @@ public class LaserGun : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
 
+        AmmoCD = false;
         maxGuns = 8;
+        currentGun = 0;
         damagetype = false;
 
-        /*gunArray = new GameObject[maxGuns];
+        //Starting gun
+        AmmoClip = 6;
+        currentAmmo = AmmoClip;
+        gunDamage = 17;
+        fireRate = 0.4f;
+        gunRange = 1;
 
-        gunArray[0] = singleShotP;
-        gunArray[1] = burstShotP;
-        gunArray[2] = revolverP;
-        gunArray[3] = semiAutoR;
-        gunArray[4] = fullAutoR;
-        gunArray[5] = boltActionR;
-        gunArray[6] = pumpActionS;
-        gunArray[7] = semiAutoS;
-        */
-        ChangeGun(0);
+        changeGun(0);
     }
 
     void Update()
     {
-        GameObject FirstPersonCharacter = GameObject.Find("FirstPersonCharacter");
-        PlayerController playercontroller = FirstPersonCharacter.GetComponent<PlayerController>();
+        // Shoot delay
+        if (shooting && shootDelay < fireRate)
+        {
+            shootDelay += 1 * Time.deltaTime;
+        }
+        else if (shooting && shootDelay >= fireRate)
+        {
+            shootDelay = 0;
+            shooting = false;
+        }
+
 
         //Gun statistics
         //single shot pistol
-        if (playercontroller.currentGun == 0)
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
+            changeGun(0);
+            AmmoCD = false;
+            AmmoClip = 6;
             gunDamage = 17;
-            playercontroller.fireRate = 0.4f;
+            fireRate = 0.4f;
             gunRange = 1;
-            ChangeGun(0);
+            if (currentAmmo > AmmoClip) { currentAmmo = AmmoClip; }
         }
 
         //burst fire pistol
-        if (playercontroller.currentGun == 1)
+        if (Input.GetKeyDown(KeyCode.Alpha2))
         {
+            changeGun(1);
+            AmmoCD = false;
+            AmmoClip = 8;
             gunDamage = 20;
-            playercontroller.fireRate = 0.9f;
+            fireRate = 0.9f;
             gunRange = 1;
-            ChangeGun(1);
+            if (currentAmmo > AmmoClip) { currentAmmo = AmmoClip; }
         }
 
         //revolver
-        if (playercontroller.currentGun == 2)
+        if (Input.GetKeyDown(KeyCode.Alpha3))
         {
+            changeGun(2);
+            AmmoClip = 6;
             gunDamage = 80;
-            playercontroller.fireRate = 1.2f;
+            fireRate = 1.2f;
             gunRange = 1;
-            ChangeGun(2);
+            if (currentAmmo > AmmoClip) { currentAmmo = AmmoClip; }
         }
 
         //semi automatic rifle
-        if (playercontroller.currentGun == 3)
+        if (Input.GetKeyDown(KeyCode.Alpha4))
         {
+            changeGun(3);
             gunDamage = 40;
-            playercontroller.fireRate = 0.6f;
+            fireRate = 0.6f;
             gunRange = 2;
-            ChangeGun(3);
+            AmmoCD = true;
         }
 
         //full automatic rifle
-        if (playercontroller.currentGun == 4)
+        if (Input.GetKeyDown(KeyCode.Alpha5))
         {
+            changeGun(4);
             gunDamage = 20;
-            playercontroller.fireRate = 0.1f;
+            fireRate = 0.1f;
             gunRange = 2;
-            ChangeGun(4);
-
+            AmmoCD = true;
         }
 
         //Bolt action rifle
-        if (playercontroller.currentGun == 5)
+        if (Input.GetKeyDown(KeyCode.Alpha6))
         {
+            changeGun(5);
+            AmmoClip = 5;
             gunDamage = 100;
-            playercontroller.fireRate = 1.5f;
+            fireRate = 1.5f;
             gunRange = 2;
-            ChangeGun(5);
+            if (currentAmmo > AmmoClip) { currentAmmo = AmmoClip; }
+            AmmoCD = false;
         }
 
         //pump action shotgun
-        if (playercontroller.currentGun == 6)
+        if (Input.GetKeyDown(KeyCode.Alpha7))
         {
+            changeGun(6);
+            AmmoClip = 2;
             gunDamage = 100;
-            playercontroller.fireRate = 1.3f;
+            fireRate = 1.3f;
             gunRange = 0;
-            ChangeGun(6);
+            if (currentAmmo > AmmoClip) { currentAmmo = AmmoClip; }
+            AmmoCD = false;
         }
 
         //semi automatic shotgun
-        if (playercontroller.currentGun == 7)
+        if (Input.GetKeyDown(KeyCode.Alpha8))
         {
+            changeGun(7);
+            AmmoClip = 3;
             gunDamage = 70;
-            playercontroller.fireRate = 0.8f;
+            fireRate = 0.8f;
             gunRange = 0;
-            ChangeGun(7);
+            if (currentAmmo > AmmoClip) { currentAmmo = AmmoClip; }
         }
 
         /*if(Input.GetKeyDown(KeyCode.T))
@@ -203,23 +213,84 @@ public class LaserGun : MonoBehaviour
             }
         }*/
 
-        shotPoint = gunPos.transform.position;
+        if (PowerUpTimer >= 0.0f && rapidFire == true)
+        {
+            PowerUpTimer += Time.deltaTime;
+            fireRate = 0.1f;
+        }
+
+        if (PowerUpTimer >= 30.0f)
+        {
+            rapidFire = false;
+            resetGun(currentGun);
+            PowerUpTimer = 0.0f;
+        }
+
+        if (Input.GetMouseButton(0) && !shooting && !PlayerController.switchADS && !OverHeat && !noAmmo && rapidFire == true)
+        {
+            if (AmmoCD == true)
+            {
+                GunHeat += Time.deltaTime;
+            }
+            else
+            {
+                currentAmmo--;
+            }
+        }
+
+        if (currentAmmo == 0)
+        {
+            ReloadTimer += Time.deltaTime;
+            noAmmo = true;
+        }
+
+        if (ReloadTimer >= 3.0f)
+        {
+            currentAmmo = AmmoClip;
+            ReloadTimer = 0.0f;
+            noAmmo = false;
+        }
+
+        if (GunHeat < 0.0f)
+        {
+            GunHeat = 0.0f;
+            OverHeat = false;
+        }
+        if (GunHeat > 1.5f) { OverHeat = true; }
+
+
+        if (AmmoCD == true)
+        {
+            GunHeat += Time.deltaTime * 20;
+        }
+        if (AmmoCD == false)
+        {
+            currentAmmo--;
+            if (currentGun == 1)
+            {
+                currentAmmo -= 2;
+            }
+        }
+
+        GunHeat -= Time.deltaTime / 2;
+        shotPoint = laserPoint.transform.position;
+
         //shotPoint.y -= 0.8f;
-        if (Input.GetMouseButton(0) && !PlayerController.shooting && !PlayerController.switchADS && !PlayerController.rapidFire && currentWeapon != 4)
+        if (Input.GetMouseButton(0) && !shooting && !PlayerController.switchADS && !rapidFire && currentWeapon != 4)
         {
             StopCoroutine("ShootLaser");
             StartCoroutine("ShootLaser");
         }
 
-        if (Input.GetMouseButton(0) && !PlayerController.shooting && !PlayerController.switchADS && PlayerController.rapidFire || currentWeapon == 4 && Input.GetMouseButton(0) && !PlayerController.shooting && !PlayerController.switchADS && !PlayerController.rapidFire)
+        if (Input.GetMouseButton(0) && !shooting && !PlayerController.switchADS && rapidFire || currentWeapon == 4 && Input.GetMouseButton(0) && !shooting && !PlayerController.switchADS && !rapidFire)
         {
             StopCoroutine("RapidLaser");
             StartCoroutine("RapidLaser");
         }
 
-        if (PlayerController.AmmoCD == false && !PlayerController.noAmmo)
+        if (AmmoCD == false && !noAmmo)
         {
-            if (Input.GetMouseButtonDown(0) && !PlayerController.shooting && !PlayerController.switchADS && !PlayerController.rapidFire)
+            if (Input.GetMouseButtonDown(0) && !shooting && !PlayerController.switchADS && !rapidFire)
             {
                 /*Debug.Log("Bullet Pos " + bulletInstancePos.position);
                 Debug.Log("Bullet Rot " + bulletInstancePos.rotation);*/
@@ -275,7 +346,7 @@ public class LaserGun : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            if (PlayerController.AmmoCD == true && !PlayerController.OverHeat)
+            if (AmmoCD == true && !OverHeat)
             {
                 line.GetComponent<Renderer>().material.mainTextureOffset = new Vector2(0, Time.time);
 
@@ -310,7 +381,7 @@ public class LaserGun : MonoBehaviour
          yield return null;
         }
 
-    PlayerController.shooting = true;
+    shooting = true;
     }
 
     IEnumerator RapidLaser()
@@ -319,13 +390,13 @@ public class LaserGun : MonoBehaviour
 
         if (currentWeapon == 4)
         {
-            PlayerController.GunHeat += Time.deltaTime;
+            GunHeat += Time.deltaTime;
         }
 
-        if (Input.GetMouseButton(0) && !PlayerController.noAmmo)
+        if (Input.GetMouseButton(0) && !noAmmo)
         {
 
-            if (PlayerController.AmmoCD == true && !PlayerController.OverHeat)
+            if (AmmoCD == true && !OverHeat)
             {
                 line.GetComponent<Renderer>().material.mainTextureOffset = new Vector2(0, Time.time);
 
@@ -358,106 +429,44 @@ public class LaserGun : MonoBehaviour
             }
         }
 
-        PlayerController.shooting = true;
+        shooting = true;
     }
 
-    /*void ChangeWeapon(int id)
-    {
-        if (id == 0)
-        {
-            gunDamage = 17;
-            fireRate = 0.4f;
-            gunRange = 1;
-        }
-
-        //burst fire pistol
-        if (id == 1)
-        {
-            gunDamage = 20;
-            fireRate = 0.9f;
-            gunRange = 1;
-        }
-
-        //revolver
-        if (id == 2)
-        {
-            gunDamage = 80;
-            fireRate = 1.2f;
-            gunRange = 1;
-        }
-
-        //semi automatic rifle
-        if (id == 3)
-        {
-            gunDamage = 40;
-            fireRate = 0.6f;
-            gunRange = 2;
-        }
-
-        //full automatic rifle
-        if (id == 4)
-        {
-            gunDamage = 20;
-            fireRate = 0.1f;
-            gunRange = 2;
-
-        }
-
-        //Bolt action rifle
-        if (id == 5)
-        {
-            gunDamage = 100;
-            fireRate = 1.5f;
-            gunRange = 2;
-        }
-
-        //pump action shotgun
-        if (id == 6)
-        {
-            gunDamage = 100;
-            fireRate = 1.3f;
-            gunRange = 0;
-        }
-
-        //semi automatic shotgun
-        if (id == 7)
-        {
-            gunDamage = 70;
-            fireRate = 0.8f;
-            gunRange = 0;
-        }
-        Debug.Log(currentRange);
-        bulletInstancePos = weapons[id].transform.FindChild("BulletPos").transform;
-        for (int i = 0; i < maxGuns; i++)
-        {
-            if (i == id)
-            {
-                damagetype = false;
-
-                if (id == 1 || id == 6 || id == 7)
-                {
-                    damagetype = true;
-                }
-            }
-        }
-    }*/
-
-    int ChangeGun (int i)
+    void changeGun (int i)
     {
         bulletInstancePos = weapons[i].transform.FindChild("BulletPos").transform;
         currentWeapon = i;
-        for (int w = 0; w < maxGuns; w++)
+        //PlayerController.muzzleflash[0].transform.position = bulletInstancePos.position;
+        for (int w = 0; w < weapons.Length; w++)
         {
             if (w == i)
             {
                 damagetype = false;
+                weapons[w].SetActive(true);
 
                 if (i == 1 || i == 4)
                 {
                     damagetype = true;
                 }
             }
+            if (w != i)
+            {
+                weapons[w].SetActive(false);
+            }
         }
-        return 0;
+    }
+
+
+    void resetGun(int CG)
+    {
+        for (int i = 0; i < maxGuns; i++)
+        {
+            weapons[i].SetActive(false);
+
+            if (i == CG)
+            {
+                weapons[i].SetActive(true);
+            }
+        }
     }
 }
