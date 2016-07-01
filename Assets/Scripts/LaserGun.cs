@@ -224,11 +224,9 @@ public class LaserGun : MonoBehaviour
             if (!PlayerController.ADS)
             {
                 weapons[currentGun].GetComponent<Animator>().Play("Gun_Shoot");
-                Debug.Log("Pressed left click.");
             }
             else if (PlayerController.ADS)
             {
-                Debug.Log("Pressed left click.");
                 weapons[currentGun].GetComponent<Animator>().Play("GunADS_Shoot");
             }
 
