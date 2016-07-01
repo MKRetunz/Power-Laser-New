@@ -30,6 +30,9 @@ public class LaserGun : MonoBehaviour
     private float ReloadTimer;
     public static float shootDelay;
     public static float GunHeat;
+    private float particleTimer;
+
+    public ParticleSystem muzzleflash;
 
     public static bool OverHeat;
     public static bool rapidFire;
@@ -57,6 +60,8 @@ public class LaserGun : MonoBehaviour
 
     void Start()
     {
+        muzzleflash.Stop();
+
         GunHeat = 0.0f;
         PowerUpTimer = 0.0f;
         ReloadTimer = 0.0f;
@@ -213,6 +218,37 @@ public class LaserGun : MonoBehaviour
             }
         }*/
 
+        //Shooting mechanics
+        if (Input.GetMouseButtonDown(0) && !shooting && !PlayerController.switchADS && !OverHeat && !noAmmo && !rapidFire)
+        {
+            if (!PlayerController.ADS)
+            {
+                weapons[currentGun].GetComponent<Animator>().Play("Gun_Shoot");
+                Debug.Log("Pressed left click.");
+            }
+            else if (PlayerController.ADS)
+            {
+                Debug.Log("Pressed left click.");
+                weapons[currentGun].GetComponent<Animator>().Play("GunADS_Shoot");
+            }
+
+            if (AmmoCD == true)
+            {
+                GunHeat += Time.deltaTime * 20;
+            }
+            if (AmmoCD == false)
+            {
+                currentAmmo--;
+                if (currentGun == 1)
+                {
+                    currentAmmo -= 2;
+                }
+            }
+
+            muzzleflash.Play();
+            particleTimer = 0.0f;
+        }
+
         if (PowerUpTimer >= 0.0f && rapidFire == true)
         {
             PowerUpTimer += Time.deltaTime;
@@ -258,22 +294,14 @@ public class LaserGun : MonoBehaviour
         }
         if (GunHeat > 1.5f) { OverHeat = true; }
 
-
-        if (AmmoCD == true)
-        {
-            GunHeat += Time.deltaTime * 20;
-        }
-        if (AmmoCD == false)
-        {
-            currentAmmo--;
-            if (currentGun == 1)
-            {
-                currentAmmo -= 2;
-            }
-        }
-
         GunHeat -= Time.deltaTime / 2;
         shotPoint = laserPoint.transform.position;
+        particleTimer += Time.deltaTime;
+
+        if (particleTimer > 0.8f)
+        {
+            muzzleflash.Stop();
+        }
 
         //shotPoint.y -= 0.8f;
         if (Input.GetMouseButton(0) && !shooting && !PlayerController.switchADS && !rapidFire && currentWeapon != 4)

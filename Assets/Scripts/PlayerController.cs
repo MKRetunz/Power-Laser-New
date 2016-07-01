@@ -14,9 +14,6 @@ public class PlayerController : MonoBehaviour
     public float crouchHeight;
     public float TimerCover;
     public float hSliderValue = 0;
-    private float particleTimer;
-
-    public ParticleSystem muzzleflash;
 
     static public int health = 100;
     static public float recoverTimer;
@@ -24,10 +21,6 @@ public class PlayerController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        //muzzleflash.
-
-        muzzleflash.Stop();
-
         crouchingSpeed = 0.1f;
         CspeedUp = crouchingSpeed;
         recoverTimer = 0.0f;
@@ -66,25 +59,6 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Shooting mechanics
-        if (Input.GetMouseButtonDown(0) && !LaserGun.shooting && !switchADS && !LaserGun.OverHeat && LaserGun.noAmmo == false && LaserGun.rapidFire == false)
-        {
-            if (!ADS)
-            {
-                Debug.Log("Pressed left click.");
-                //singleShotP.GetComponent<Animator>().Play("Gun_Shoot");
-                
-            }
-            else if (ADS)
-            {
-                Debug.Log("Pressed left click.");
-                //singleShotP.GetComponent<Animator>().Play("GunADS_Shoot");
-            }
-           
-            muzzleflash.Play();
-            particleTimer = 0.0f;
-        }
-
         //Crouching
         if (Input.GetKey("x"))
         {
@@ -131,18 +105,11 @@ public class PlayerController : MonoBehaviour
         transform.localPosition = new Vector3(0, CspeedUp, 0);
         player.height = crouchHeight + 2.5f;
         TimerCover += Time.deltaTime;
-        particleTimer += Time.deltaTime;
 
         if (TimerCover > 3.0)
         {
             HUD.showText = false;
         }
-
-        if (particleTimer > 0.8f)
-        {
-            muzzleflash.Stop();
-        }
-
         //Aim mechanics
         if (Input.GetMouseButtonDown(1))
         {
