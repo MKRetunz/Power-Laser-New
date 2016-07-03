@@ -46,8 +46,6 @@ public class LaserGun : MonoBehaviour
     int maxGuns;
     int burstcounter;
 
-    float killTimer;
-
     public GameObject[] weapons;
 
     public Transform bulletInstancePos;
