@@ -29,8 +29,11 @@ namespace UnityStandardAssets.Characters.FirstPerson
         [SerializeField] private AudioClip m_LandSound;           // the sound played when character touches back on ground.
         [SerializeField] private GameObject gun;
 
-        public static bool isRunning = false;
-        public static bool shootDelayer = false;
+        PlayerController player;
+        LaserGun lGun;
+
+        public bool isRunning = false;
+        public bool shootDelayer = false;
 
         private Camera m_Camera;
         private bool m_Jump;
@@ -50,6 +53,9 @@ namespace UnityStandardAssets.Characters.FirstPerson
         // Use this for initialization
         private void Start()
         {
+            player = new PlayerController();
+            lGun = new LaserGun();
+
             m_CharacterController = GetComponent<CharacterController>();
             m_Camera = Camera.main;
             m_OriginalCameraPosition = m_Camera.transform.localPosition;
@@ -137,7 +143,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
             m_MouseLook.UpdateCursorLock();
 
-            if (Input.GetMouseButtonDown(0) && !LaserGun.shooting && !LaserGun.OverHeat)
+            if (Input.GetMouseButtonDown(0) && !lGun.shooting && !lGun.OverHeat)
             {
                 m_IsWalking = true;
                 shootDelayer = true;
@@ -156,12 +162,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 shootDelayer = false;
             }
 
-            if (!m_IsWalking && m_CharacterController.isGrounded && !LaserGun.shooting)
+            if (!m_IsWalking && m_CharacterController.isGrounded && !lGun.shooting)
             {
                 isRunning = true;
-                if (PlayerController.ADS)
+                if (player.ADS)
                 {
-                    PlayerController.ADS = false;
+                    player.ADS = false;
                     HUD.scaleFromADS = true;
                 }
                 if (speed > 0)
@@ -254,7 +260,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 #if !MOBILE_INPUT
             // On standalone builds, walk/run speed is modified by a key press.
             // keep track of whether or not the character is walking or running
-            if(!Input.GetMouseButton(0) && !LaserGun.shooting && !shootDelayer)
+            if(!Input.GetMouseButton(0) && !lGun.shooting && !shootDelayer)
             {
                 m_IsWalking = !Input.GetKey(KeyCode.LeftShift);
             }

@@ -4,6 +4,9 @@ using UnityEngine.UI;
 
 public class HUD : MonoBehaviour
 {
+    PlayerController player;
+    LaserGun lGun;
+
     public Texture2D crosshairSprite;
     public Texture2D plus80;
     public Texture2D plus10;
@@ -50,6 +53,9 @@ public class HUD : MonoBehaviour
 
     void Start()
     {
+        player = new PlayerController();
+        lGun = new LaserGun();
+
         crossPos = new Rect((Screen.width - crosshairSprite.width / 2) / 2, (Screen.height - crosshairSprite.height / 2) / 2, crosshairSprite.width / 2, crosshairSprite.height / 2);
         scorePos = new Rect((Screen.width - 200) / 24 * 23, (Screen.height - 100) / 12, 200, 100);
         plusPos = new Rect(scorePos.x + 90, scorePos.y - 3, plus80.width * 1.3f, plus80.height * 1.3f);
@@ -122,16 +128,16 @@ public class HUD : MonoBehaviour
             minusStay = 0;
             minusTrigger = true;
             playerHit = false;
-            PlayerController.health -= 50;
-            PlayerController.recoverTimer = 0.0f;
+            player.health -= 50;
+            player.recoverTimer = 0.0f;
         }
 
         //Run/ADS/Idle controller
-        if (!PlayerController.ADS && Input.GetMouseButtonDown(1) && !PlayerController.switchADS && !LaserGun.shooting)
+        if (!player.ADS && Input.GetMouseButtonDown(1) && !player.switchADS && !lGun.shooting)
         {
             scaleToADS = true;
         }
-        else if (PlayerController.ADS && Input.GetMouseButtonDown(1) && !PlayerController.switchADS && !LaserGun.shooting)
+        else if (player.ADS && Input.GetMouseButtonDown(1) && !player.switchADS && !lGun.shooting)
         {
             scaleFromADS = true;
         }
@@ -157,7 +163,7 @@ public class HUD : MonoBehaviour
             scaleToADS = false;
             scaleDelay = 0;
             crosshairTrigger = false;
-            PlayerController.switchADS = false;
+            player.switchADS = false;
         }
 
         //fromADS
@@ -173,7 +179,7 @@ public class HUD : MonoBehaviour
             scaleTrigger = 0;
             scaleFromADS = false;
             scaleDelay = 0;
-            PlayerController.switchADS = false;
+            player.switchADS = false;
         }
 
         //Plus score
@@ -212,9 +218,9 @@ public class HUD : MonoBehaviour
             minusStay = 0;
         }
 
-        AmmoText.text = LaserGun.currentAmmo.ToString();
-        HeatSlider.value = LaserGun.GunHeat;
-        BoonSlider.value = LaserGun.PowerUpTimer;
-        HealthSlider.value = PlayerController.health;
+        AmmoText.text = lGun.currentAmmo.ToString();
+        HeatSlider.value = lGun.GunHeat;
+        BoonSlider.value = lGun.PowerUpTimer;
+        HealthSlider.value = player.health;
     }
 }

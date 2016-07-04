@@ -4,9 +4,11 @@ using System.Collections;
 public class PlayerController : MonoBehaviour
 {
     //public GameObject gun;
+    LaserGun lGun;
+
     public CharacterController player;
-    public static bool ADS;
-    public static bool switchADS;
+    public bool ADS;
+    public bool switchADS;
     private bool CanCover;
     private bool Covering;
     public float crouchingSpeed;
@@ -15,12 +17,14 @@ public class PlayerController : MonoBehaviour
     public float TimerCover;
     public float hSliderValue = 0;
 
-    static public int health = 100;
-    static public float recoverTimer;
+    public int health = 100;
+    public float recoverTimer;
    
     // Use this for initialization
     void Start()
     {
+        lGun = new LaserGun();
+
         crouchingSpeed = 0.1f;
         CspeedUp = crouchingSpeed;
         recoverTimer = 0.0f;
@@ -45,8 +49,8 @@ public class PlayerController : MonoBehaviour
 
         if (col.GetComponent<Collider>().name == "FirePickUp")
         {
-            LaserGun.rapidFire = true;
-            LaserGun.PowerUpTimer = 0.1f;
+            lGun.rapidFire = true;
+            lGun.PowerUpTimer = 0.1f;
             Destroy(col.gameObject);
         }
 
@@ -117,13 +121,13 @@ public class PlayerController : MonoBehaviour
         //Aim mechanics
         if (Input.GetMouseButtonDown(1))
         {
-            if (!ADS && !LaserGun.shooting && !switchADS)
+            if (!ADS && !lGun.shooting && !switchADS)
             {
                 //singleShotP.GetComponent<Animator>().Play("GunToADS");
                 switchADS = true;
                 ADS = true;
             }
-            else if (ADS && !LaserGun.shooting && !switchADS)
+            else if (ADS && !lGun.shooting && !switchADS)
             {
                 //singleShotP.GetComponent<Animator>().Play("GunFromADS");
                 switchADS = true;

@@ -37,7 +37,7 @@ public class EnemySpawn : MonoBehaviour {
     {
         if (col.GetComponent<Collider>().name == "Target(Clone)")
         {
-            
+            //Left empty to do nothing
         }
 
         else
@@ -49,6 +49,7 @@ public class EnemySpawn : MonoBehaviour {
         // Update is called once per frame
         void Update () {
 
+        //Calculate distance between player and spawn
         float dist = Vector3.Distance(player.position, spawnpoints[0].position);
         float dist1 = Vector3.Distance(player.position, spawnpoints[1].position);
         float dist2 = Vector3.Distance(player.position, spawnpoints[2].position);

@@ -5,6 +5,8 @@ using System.Collections;
 
 public class LaserGun : MonoBehaviour
 {
+    PlayerController player;
+
     public Camera c;
     Transform bulletPos;
     public GameObject laserparticles;
@@ -26,19 +28,19 @@ public class LaserGun : MonoBehaviour
     float bulletTime;
 
     public float fireRate;
-    static public float PowerUpTimer;
+    public float PowerUpTimer;
     private float ReloadTimer;
-    public static float shootDelay;
-    public static float GunHeat;
+    public float shootDelay;
+    public float GunHeat;
     private float particleTimer;
 
     public ParticleSystem muzzleflash;
 
-    public static bool OverHeat;
-    public static bool rapidFire;
-    public static bool noAmmo;
-    public static bool AmmoCD;
-    public static bool shooting;
+    public bool OverHeat;
+    public bool rapidFire;
+    public bool noAmmo;
+    public bool AmmoCD;
+    public bool shooting;
 
     public float bSpeed;
     public int gunDamage;
@@ -54,10 +56,12 @@ public class LaserGun : MonoBehaviour
 
     public int currentGun;
     public int AmmoClip;
-    static public int currentAmmo;
+    public int currentAmmo;
 
     void Start()
     {
+        player = new PlayerController();
+
         muzzleflash.Stop();
 
         GunHeat = 0.0f;
@@ -217,14 +221,14 @@ public class LaserGun : MonoBehaviour
         }*/
 
         //Shooting mechanics
-        if (Input.GetMouseButtonDown(0) && !shooting && !PlayerController.switchADS && !OverHeat && !noAmmo && !rapidFire)
+        if (Input.GetMouseButtonDown(0) && !shooting && !player.switchADS && !OverHeat && !noAmmo && !rapidFire)
         {
-            if (!PlayerController.ADS)
+            if (!player.ADS)
             {
                 weapons[currentGun].GetComponent<Animator>().Play("Gun_Shoot");
             }
 
-            else if (PlayerController.ADS)
+            else if (player.ADS)
             {
                 weapons[currentGun].GetComponent<Animator>().Play("GunADS_Shoot");
             }
@@ -260,7 +264,7 @@ public class LaserGun : MonoBehaviour
             PowerUpTimer = 0.0f;
         }
 
-        if (Input.GetMouseButton(0) && !shooting && !PlayerController.switchADS && !OverHeat && !noAmmo && rapidFire == true)
+        if (Input.GetMouseButton(0) && !shooting && !player.switchADS && !OverHeat && !noAmmo && rapidFire == true)
         {
             if (AmmoCD == true)
             {
@@ -303,14 +307,13 @@ public class LaserGun : MonoBehaviour
             muzzleflash.Stop();
         }
 
-        //shotPoint.y -= 0.8f;
-        if (Input.GetMouseButton(0) && !shooting && !PlayerController.switchADS && !rapidFire && currentWeapon != 4)
+        if (Input.GetMouseButton(0) && !shooting && !player.switchADS && !rapidFire && currentWeapon != 4)
         {
             StopCoroutine("ShootLaser");
             StartCoroutine("ShootLaser");
         }
 
-        if (Input.GetMouseButton(0) && !shooting && !PlayerController.switchADS && rapidFire || currentWeapon == 4 && Input.GetMouseButton(0) && !shooting && !PlayerController.switchADS && !rapidFire)
+        if (Input.GetMouseButton(0) && !shooting && !player.switchADS && rapidFire || currentWeapon == 4 && Input.GetMouseButton(0) && !shooting && !player.switchADS && !rapidFire)
         {
             StopCoroutine("RapidLaser");
             StartCoroutine("RapidLaser");
@@ -318,7 +321,7 @@ public class LaserGun : MonoBehaviour
 
         if (AmmoCD == false && !noAmmo)
         {
-            if (Input.GetMouseButtonDown(0) && !shooting && !PlayerController.switchADS && !rapidFire)
+            if (Input.GetMouseButtonDown(0) && !shooting && !player.switchADS && !rapidFire)
             {
                 Rigidbody bullet = Instantiate(projectile, bulletInstancePos.position, bulletInstancePos.rotation) as Rigidbody;
                 if (damagetype == false)
