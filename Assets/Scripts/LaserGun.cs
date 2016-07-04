@@ -316,9 +316,6 @@ public class LaserGun : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0) && !shooting && !PlayerController.switchADS && !rapidFire)
             {
-                /*Debug.Log("Bullet Pos " + bulletInstancePos.position);
-                Debug.Log("Bullet Rot " + bulletInstancePos.rotation);*/
-
                 Rigidbody bullet = Instantiate(projectile, bulletInstancePos.position, bulletInstancePos.rotation) as Rigidbody;
                 if (damagetype == false)
                 {
