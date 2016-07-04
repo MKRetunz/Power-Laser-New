@@ -206,13 +206,13 @@ public class LaserGun : MonoBehaviour
             {
                 currentWeapon++;
 
-                ChangeWeapon(currentWeapon);
+                ChangeGun(currentWeapon);
             }
             else
             {
                 currentWeapon = 0;
 
-                ChangeWeapon(currentWeapon);
+                ChangeGun(currentWeapon);
             }
         }*/
 
@@ -460,7 +460,7 @@ public class LaserGun : MonoBehaviour
     {
         bulletInstancePos = weapons[i].transform.FindChild("BulletPos").transform;
         currentWeapon = i;
-        //PlayerController.muzzleflash[0].transform.position = bulletInstancePos.position;
+        //muzzleflash.transform.position = bulletInstancePos.transform.position;
         for (int w = 0; w < weapons.Length; w++)
         {
             if (w == i)
