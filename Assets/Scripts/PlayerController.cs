@@ -33,11 +33,11 @@ public class PlayerController : MonoBehaviour
     {
         if (col.GetComponent<Collider>().name == "Cover")
         {
-            Debug.Log("I'm Working");
             HUD.showText = true;
             TimerCover = 0.0f;
             CanCover = true;
         }
+
         if (col.GetComponent<Collider>().name == "Uncover")
         {
             CanCover = false;
@@ -49,6 +49,7 @@ public class PlayerController : MonoBehaviour
             LaserGun.PowerUpTimer = 0.1f;
             Destroy(col.gameObject);
         }
+
         if (col.GetComponent<Collider>().name == "LasergateHit")
         {
             HUD.score -= 100;
@@ -89,6 +90,7 @@ public class PlayerController : MonoBehaviour
         {
             CspeedUp = -0.6f;
         }
+
         else
         {
             crouchHeight += 0.1f * (Time.deltaTime * 10);
@@ -102,6 +104,7 @@ public class PlayerController : MonoBehaviour
                 CspeedUp = 0.0f;
             }
         }
+
         transform.localPosition = new Vector3(0, CspeedUp, 0);
         player.height = crouchHeight + 2.5f;
         TimerCover += Time.deltaTime;
@@ -110,19 +113,18 @@ public class PlayerController : MonoBehaviour
         {
             HUD.showText = false;
         }
+
         //Aim mechanics
         if (Input.GetMouseButtonDown(1))
         {
             if (!ADS && !LaserGun.shooting && !switchADS)
             {
-                Debug.Log("Pressed right click.");
                 //singleShotP.GetComponent<Animator>().Play("GunToADS");
                 switchADS = true;
                 ADS = true;
             }
             else if (ADS && !LaserGun.shooting && !switchADS)
             {
-                Debug.Log("Pressed right click.");
                 //singleShotP.GetComponent<Animator>().Play("GunFromADS");
                 switchADS = true;
                 ADS = false;

@@ -223,6 +223,7 @@ public class LaserGun : MonoBehaviour
             {
                 weapons[currentGun].GetComponent<Animator>().Play("Gun_Shoot");
             }
+
             else if (PlayerController.ADS)
             {
                 weapons[currentGun].GetComponent<Animator>().Play("GunADS_Shoot");
@@ -232,6 +233,7 @@ public class LaserGun : MonoBehaviour
             {
                 GunHeat += Time.deltaTime * 20;
             }
+
             if (AmmoCD == false)
             {
                 currentAmmo--;
@@ -264,6 +266,7 @@ public class LaserGun : MonoBehaviour
             {
                 GunHeat += Time.deltaTime;
             }
+
             else
             {
                 currentAmmo--;
@@ -288,6 +291,7 @@ public class LaserGun : MonoBehaviour
             GunHeat = 0.0f;
             OverHeat = false;
         }
+
         if (GunHeat > 1.5f) { OverHeat = true; }
 
         GunHeat -= Time.deltaTime / 2;
@@ -327,6 +331,7 @@ public class LaserGun : MonoBehaviour
                     burstcounter = 0;
                 }
             }
+
             burstTimer += Time.deltaTime;
             if (burstfire == true && burstTimer >= 0.5F && burstcounter < 3)
             {
@@ -334,7 +339,6 @@ public class LaserGun : MonoBehaviour
                 bullet.velocity = transform.TransformDirection(new Vector3(0, 0, bSpeed));
                 burstcounter++;
                 burstTimer = 0.0f;
-                Debug.Log("works");
                 if (burstcounter == 3)
                 {
                     burstfire = false;
@@ -352,6 +356,7 @@ public class LaserGun : MonoBehaviour
             end.a = alpha;
             line.SetColors(start, end);
         }
+
         if (line.enabled && laserShot && shotDelay >= 0.5)
         {
             line.enabled = false;
