@@ -8,29 +8,29 @@ public class LaserGun : MonoBehaviour
     PlayerController player;
 
     public Camera c;
-    Transform bulletPos;
+    private Transform bulletPos;
     public GameObject laserparticles;
     public Transform particlerotation;
     public Rigidbody projectile;
 
-    LineRenderer line;
-    Vector3 shotPoint;
-    public GameObject laserPoint; 
-    bool damagetype;
-    bool laserShot;
-    bool burstfire;
-    bool autofire;
-    float shotDelay;
-    float speed;
-    float alpha;
-    float shootTimer;
-    float burstTimer;
-    float bulletTime;
+    private LineRenderer line;
+    private Vector3 shotPoint;
+    public GameObject laserPoint;
+    private bool damagetype;
+    private bool laserShot;
+    private bool burstfire;
+    private bool autofire;
+    private float shotDelay;
+    private float speed;
+    private float alpha;
+    private float shootTimer;
+    private float burstTimer;
+    private float bulletTime;
 
-    public float fireRate;
+    private float fireRate;
     public float PowerUpTimer;
     private float ReloadTimer;
-    public float shootDelay;
+    private float shootDelay;
     public float GunHeat;
     private float particleTimer;
 
@@ -38,15 +38,15 @@ public class LaserGun : MonoBehaviour
 
     public bool OverHeat;
     public bool rapidFire;
-    public bool noAmmo;
-    public bool AmmoCD;
+    private bool noAmmo;
+    private bool AmmoCD;
     public bool shooting;
 
-    public float bSpeed;
+    private float bSpeed;
     public int gunDamage;
     public int gunRange; //0 = short 1 = medium 2 = long
-    int maxGuns;
-    int burstcounter;
+    private int maxGuns;
+    private int burstcounter;
 
     public GameObject[] weapons;
 

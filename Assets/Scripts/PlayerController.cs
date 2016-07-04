@@ -11,11 +11,11 @@ public class PlayerController : MonoBehaviour
     public bool switchADS;
     private bool CanCover;
     private bool Covering;
-    public float crouchingSpeed;
-    public float CspeedUp;
-    public float crouchHeight;
-    public float TimerCover;
-    public float hSliderValue = 0;
+    private float crouchingSpeed;
+    private float CspeedUp;
+    private float crouchHeight;
+    private float TimerCover;
+    private float hSliderValue = 0;
 
     public int health = 100;
     public float recoverTimer;
