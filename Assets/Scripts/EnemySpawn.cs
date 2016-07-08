@@ -14,7 +14,9 @@ public class EnemySpawn : MonoBehaviour {
     private int number;
     private int recentpos;
     private bool enemyplaced;
-    private float targetTime = 0.1f;
+    private float targetTime;
+    private float waveduration;
+    private float timerString;
     public Rigidbody blueprint;
     public Transform[] spawnpoints;
     public Transform player;
@@ -31,6 +33,7 @@ public class EnemySpawn : MonoBehaviour {
         teleportTimer = 0.0f;
         waveTimer = 0.0f;
         waveTime = 60;
+        targetTime = 3.0f;
     }
 
     void OnTriggerEnter(Collider col)
@@ -58,6 +61,7 @@ public class EnemySpawn : MonoBehaviour {
         timer += Time.deltaTime;
         teleportTimer += Time.deltaTime;
         waveTimer += Time.deltaTime;
+        waveduration += Time.deltaTime;
 
         if (waveTimer >= waveTime)
         {
@@ -114,6 +118,8 @@ public class EnemySpawn : MonoBehaviour {
             teleporter.Stop();
         }
 
+        timerString = Mathf.Round(waveduration * 100) / 100;
+
     }
 
     void newWave ()
@@ -126,7 +132,17 @@ public class EnemySpawn : MonoBehaviour {
             waveactivator = false;
             waveTimer = 0.0f;
             waveTime = waveTime + 10;
+            waveduration = 0.0f;
         }
+    }
+    void OnGUI ()
+    {
+        GUIStyle Coverstyle = new GUIStyle();
+        Coverstyle.alignment = TextAnchor.MiddleCenter;
+        Coverstyle.fontSize = 40;
+
+        GUI.Label(new Rect(Screen.width / 16 - 200, Screen.height / 8 - 40, 400, 30), "Wave: " + wave.ToString(), Coverstyle);
+        GUI.Label(new Rect(Screen.width / 16 - 200, Screen.height / 8, 400, 30), "Wave Time: " + timerString.ToString(), Coverstyle);
     }
 }
 

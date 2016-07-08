@@ -34,6 +34,8 @@ public class HUD : MonoBehaviour
     public float minusDelay = 0;
     public float minusStay = 0;
     public float minusUp = 0;
+    public float spawnDuration = 0;
+    public int spawnWave = 0;
     public static bool crosshairTrigger = true;
     public bool scaleToADS = false;
     public static bool scaleFromADS = false;
@@ -44,6 +46,7 @@ public class HUD : MonoBehaviour
     public static bool enemyDie = false;
     public static bool showText;
     public static int score = 0;
+    public bool waveCounter;
 
     //UI
     public Slider HeatSlider;
@@ -77,6 +80,8 @@ public class HUD : MonoBehaviour
         AmmoText.transform.position = new Vector3(Screen.width / 12 * 11, Screen.height / 12 * 3, HeatSlider.transform.position.z);
 
         showText = false;
+
+        spawnDuration = 1;
     }
 
     void OnGUI()
@@ -89,10 +94,8 @@ public class HUD : MonoBehaviour
         GUI.Label(scorePos, "Score: " + score, textstyle);
 
         GUIStyle Coverstyle = new GUIStyle();
-
         Coverstyle.alignment = TextAnchor.MiddleCenter;
-        Coverstyle.fontSize = 50;
-        GUI.Label(new Rect(Screen.width / 16 - 200, Screen.height / 8 - 40, 400, 30), "Wave: " + spawn.wave.ToString(), Coverstyle);
+        Coverstyle.fontSize = 40;
 
         if (plusTrigger)
         {
@@ -105,8 +108,6 @@ public class HUD : MonoBehaviour
 
         if (showText)
         {
-            Coverstyle.alignment = TextAnchor.MiddleCenter;
-            Coverstyle.fontSize = 50;
             GUI.Label(new Rect(Screen.width / 2 - 200, Screen.height - 40, 400, 30), "Hold Z for cover.", Coverstyle);
         }
 
@@ -230,5 +231,8 @@ public class HUD : MonoBehaviour
         HeatSlider.value = lGun.GunHeat;
         BoonSlider.value = lGun.PowerUpTimer;
         HealthSlider.value = player.health;
+
+        spawnDuration = spawnDuration++;
+        spawnWave = spawn.wave;
     }
 }
