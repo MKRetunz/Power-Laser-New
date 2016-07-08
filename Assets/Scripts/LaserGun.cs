@@ -50,7 +50,8 @@ public class LaserGun : MonoBehaviour
 
     public GameObject[] weapons;
 
-    public Transform bulletInstancePos;
+    private Transform bulletInstancePos;
+    private Transform muzzlePos;
 
     int currentWeapon;
 
@@ -464,8 +465,9 @@ public class LaserGun : MonoBehaviour
     void changeGun (int i)
     {
         bulletInstancePos = weapons[i].transform.FindChild("BulletPos").transform;
+        muzzlePos = weapons[i].transform.FindChild("MuzzlePos").transform;
         currentWeapon = i;
-        //muzzleflash.transform.position = bulletInstancePos.transform.position;
+        muzzleflash.transform.position = muzzlePos.transform.position;
         for (int w = 0; w < weapons.Length; w++)
         {
             if (w == i)

@@ -6,6 +6,7 @@ public class HUD : MonoBehaviour
 {
     PlayerController player;
     LaserGun lGun;
+    EnemySpawn spawn;
 
     public Texture2D crosshairSprite;
     public Texture2D plus80;
@@ -55,6 +56,7 @@ public class HUD : MonoBehaviour
     {
         player = new PlayerController();
         lGun = new LaserGun();
+        spawn = new EnemySpawn();
 
         crossPos = new Rect((Screen.width - crosshairSprite.width / 2) / 2, (Screen.height - crosshairSprite.height / 2) / 2, crosshairSprite.width / 2, crosshairSprite.height / 2);
         scorePos = new Rect((Screen.width - 200) / 24 * 23, (Screen.height - 100) / 12, 200, 100);
@@ -85,7 +87,14 @@ public class HUD : MonoBehaviour
         GUI.DrawTexture(scorePos, Score);
         //Score GUI
         GUI.Label(scorePos, "Score: " + score, textstyle);
-        if(plusTrigger)
+
+        GUIStyle Coverstyle = new GUIStyle();
+
+        Coverstyle.alignment = TextAnchor.MiddleCenter;
+        Coverstyle.fontSize = 50;
+        GUI.Label(new Rect(Screen.width / 16 - 200, Screen.height / 8 - 40, 400, 30), "Wave: " + spawn.wave.ToString(), Coverstyle);
+
+        if (plusTrigger)
         {
             GUI.DrawTexture(plusPos, plus);
         }
@@ -96,7 +105,6 @@ public class HUD : MonoBehaviour
 
         if (showText)
         {
-            GUIStyle Coverstyle = new GUIStyle();
             Coverstyle.alignment = TextAnchor.MiddleCenter;
             Coverstyle.fontSize = 50;
             GUI.Label(new Rect(Screen.width / 2 - 200, Screen.height - 40, 400, 30), "Hold Z for cover.", Coverstyle);

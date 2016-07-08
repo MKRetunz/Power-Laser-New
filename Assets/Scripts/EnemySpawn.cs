@@ -3,18 +3,18 @@ using System.Collections;
 
 public class EnemySpawn : MonoBehaviour {
 
-    float timer;
-    float teleportTimer;
-    float waveTimer;
+    private float timer;
+    private float teleportTimer;
+    private float waveTimer;
     public int wave;
-    public int maxEnemies;
-    int waveTime;
-    bool waveactivator;
-    int i;
-    int number;
-    int recentpos;
-    bool enemyplaced;
-    public float targetTime = 0.1f;
+    private int maxEnemies;
+    private int waveTime;
+    private bool waveactivator;
+    private int i;
+    private int number;
+    private int recentpos;
+    private bool enemyplaced;
+    private float targetTime = 0.1f;
     public Rigidbody blueprint;
     public Transform[] spawnpoints;
     public Transform player;
@@ -127,13 +127,6 @@ public class EnemySpawn : MonoBehaviour {
             waveTimer = 0.0f;
             waveTime = waveTime + 10;
         }
-    }
-    void OnGUI()
-    {
-        GUIStyle Coverstyle = new GUIStyle();
-        Coverstyle.alignment = TextAnchor.MiddleCenter;
-        Coverstyle.fontSize = 50;
-        GUI.Label(new Rect(Screen.width / 16 - 200, Screen.height / 8 - 40 , 400, 30), "Wave: " + wave.ToString(), Coverstyle);
     }
 }
 
