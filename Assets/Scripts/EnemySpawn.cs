@@ -14,9 +14,10 @@ public class EnemySpawn : MonoBehaviour {
     private int number;
     private int recentpos;
     private bool enemyplaced;
+    private bool waveRefresh;
     private float targetTime;
     private float waveduration;
-    private float timerString;
+    private int timerString;
     public Rigidbody blueprint;
     public Transform[] spawnpoints;
     public Transform player;
@@ -29,11 +30,14 @@ public class EnemySpawn : MonoBehaviour {
         maxEnemies = 10;
         number = Random.Range(1, spawnpoints.Length);
         enemyplaced = false;
+        waveRefresh = false;
         teleporter.Stop();
         teleportTimer = 0.0f;
         waveTimer = 0.0f;
         waveTime = 60;
         targetTime = 3.0f;
+
+        waveduration = waveTime;
     }
 
     void OnTriggerEnter(Collider col)
@@ -61,7 +65,7 @@ public class EnemySpawn : MonoBehaviour {
         timer += Time.deltaTime;
         teleportTimer += Time.deltaTime;
         waveTimer += Time.deltaTime;
-        waveduration += Time.deltaTime;
+        waveduration -= Time.deltaTime;
 
         if (waveTimer >= waveTime)
         {
@@ -109,6 +113,7 @@ public class EnemySpawn : MonoBehaviour {
             i++;
             enemyplaced = false;
             waveactivator = true;
+            waveRefresh = false;
 
             number = Random.Range(1, spawnpoints.Length);
         }
@@ -118,7 +123,8 @@ public class EnemySpawn : MonoBehaviour {
             teleporter.Stop();
         }
 
-        timerString = Mathf.Round(waveduration * 100) / 100;
+        timerString = (int)waveduration;
+        //waveRefresh = false;
 
     }
 
@@ -132,7 +138,8 @@ public class EnemySpawn : MonoBehaviour {
             waveactivator = false;
             waveTimer = 0.0f;
             waveTime = waveTime + 10;
-            waveduration = 0.0f;
+            waveduration = waveTime + 10.0f;
+            waveRefresh = true;
         }
     }
     void OnGUI ()
@@ -142,7 +149,10 @@ public class EnemySpawn : MonoBehaviour {
         Coverstyle.fontSize = 40;
 
         GUI.Label(new Rect(Screen.width / 16 - 200, Screen.height / 8 - 40, 400, 30), "Wave: " + wave.ToString(), Coverstyle);
-        GUI.Label(new Rect(Screen.width / 16 - 200, Screen.height / 8, 400, 30), "Wave Time: " + timerString.ToString(), Coverstyle);
+        if (waveRefresh == false)
+        {
+            GUI.Label(new Rect(Screen.width / 16 - 200, Screen.height / 8, 400, 30), "Time remaining: " + timerString.ToString(), Coverstyle);
+        }
     }
 }
 
