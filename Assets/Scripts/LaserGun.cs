@@ -12,11 +12,13 @@ public class LaserGun : MonoBehaviour
     public GameObject laserparticles;
     public Transform particlerotation;
     public Rigidbody projectile;
+    public Rigidbody shotgunBlast;
 
     private LineRenderer line;
     private Vector3 shotPoint;
     public GameObject laserPoint;
     private bool damagetype;
+    private bool blastType;
     private bool laserShot;
     private bool burstfire;
     private bool autofire;
@@ -89,6 +91,7 @@ public class LaserGun : MonoBehaviour
         maxGuns = 8;
         currentGun = 0;
         damagetype = false;
+        blastType = false;
 
         //Starting gun
         AmmoClip = 6;
@@ -322,7 +325,7 @@ public class LaserGun : MonoBehaviour
 
         if (AmmoCD == false && !noAmmo)
         {
-            if (Input.GetMouseButtonDown(0) && !shooting && !player.switchADS && !rapidFire)
+            if (Input.GetMouseButtonDown(0) && !shooting && !player.switchADS && !rapidFire && !blastType)
             {
                 Rigidbody bullet = Instantiate(projectile, bulletInstancePos.position, bulletInstancePos.rotation) as Rigidbody;
                 if (damagetype == false)
@@ -334,6 +337,10 @@ public class LaserGun : MonoBehaviour
                     burstfire = true;
                     burstcounter = 0;
                 }
+            }
+            if (Input.GetMouseButtonDown(0) && !shooting && !player.switchADS && !rapidFire && blastType)
+            {
+                Rigidbody bullet = Instantiate(shotgunBlast, bulletInstancePos.position, bulletInstancePos.rotation) as Rigidbody;
             }
 
             burstTimer += Time.deltaTime;
@@ -473,11 +480,16 @@ public class LaserGun : MonoBehaviour
             if (w == i)
             {
                 damagetype = false;
+                blastType = false;
                 weapons[w].SetActive(true);
 
                 if (i == 1 || i == 4)
                 {
                     damagetype = true;
+                }
+                if(i == 7)
+                {
+                    blastType = true;
                 }
             }
             if (w != i)

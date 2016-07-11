@@ -34,7 +34,7 @@ public class EnemySpawn : MonoBehaviour {
         teleporter.Stop();
         teleportTimer = 0.0f;
         waveTimer = 0.0f;
-        waveTime = 60;
+        waveTime = 180;
         targetTime = 3.0f;
 
         waveduration = waveTime;
@@ -134,10 +134,10 @@ public class EnemySpawn : MonoBehaviour {
         {
             wave++;
             i = 0;
-            maxEnemies = wave * 10;
+            maxEnemies = wave * 5;
             waveactivator = false;
             waveTimer = 0.0f;
-            waveTime = waveTime + 10;
+            waveTime = waveTime + 60;
             waveduration = waveTime + 10.0f;
             waveRefresh = true;
         }
