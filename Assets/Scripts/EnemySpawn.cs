@@ -15,6 +15,7 @@ public class EnemySpawn : MonoBehaviour {
     private int recentpos;
     private bool enemyplaced;
     private bool waveRefresh;
+    private bool qPressed;
     private float targetTime;
     private float waveduration;
     private int timerString;
@@ -66,6 +67,15 @@ public class EnemySpawn : MonoBehaviour {
         teleportTimer += Time.deltaTime;
         waveTimer += Time.deltaTime;
         waveduration -= Time.deltaTime;
+
+        if (Input.GetKey(KeyCode.Q))
+        {
+            qPressed = true;
+        }
+        if (!Input.GetKey(KeyCode.Q))
+        {
+            qPressed = false;
+        }
 
         if (waveTimer >= waveTime)
         {
@@ -144,14 +154,18 @@ public class EnemySpawn : MonoBehaviour {
     }
     void OnGUI ()
     {
-        GUIStyle Coverstyle = new GUIStyle();
-        Coverstyle.alignment = TextAnchor.MiddleCenter;
-        Coverstyle.fontSize = 40;
-
-        GUI.Label(new Rect(Screen.width / 16 - 200, Screen.height / 8 - 40, 400, 30), "Wave: " + wave.ToString(), Coverstyle);
-        if (waveRefresh == false)
+        if (qPressed)
         {
-            GUI.Label(new Rect(Screen.width / 16 - 200, Screen.height / 8, 400, 30), "Time remaining: " + timerString.ToString(), Coverstyle);
+            GUIStyle Coverstyle = new GUIStyle();
+            Coverstyle.alignment = TextAnchor.MiddleCenter;
+            Coverstyle.fontSize = 40;
+            Coverstyle.normal.textColor = Color.blue;
+
+            GUI.Label(new Rect(Screen.width / 2 - 200, Screen.height / 2 + 30, 400, 30), "Wave: " + wave.ToString(), Coverstyle);
+            if (waveRefresh == false)
+            {
+                GUI.Label(new Rect(Screen.width / 2 - 200, Screen.height / 2 + 70, 400, 30), "Time remaining: " + timerString.ToString(), Coverstyle);
+            }
         }
     }
 }
